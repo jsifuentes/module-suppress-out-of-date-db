@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Add our notification to add it to the top of the admin page. -->
+    <type name="Magento\Framework\Notification\MessageList">
+        <arguments>
+            <argument name="messages" xsi:type="array">
+                <item name="sifuen_db_out_of_date" xsi:type="string">Sifuen\SuppressOutOfDateDb\Model\System\Message\DbOutOfDate</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
