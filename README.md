@@ -2,7 +2,7 @@
 
 This Magento 2 module hides the "Please upgrade your database" message.
 
-https://sifuen.com/magento-2/
+https://sifuen.com/magento-2/how-to-hide-the-please-upgrade-your-database-exception-message/
 
 ![i1](https://i.imgur.com/9PECODm.png)
 
