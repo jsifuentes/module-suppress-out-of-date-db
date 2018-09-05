@@ -44,7 +44,7 @@ class ToggleModule extends Command
      */
     protected function configure()
     {
-        $this->setName('dev:db:toggle-errors')
+        $this->setName('dev:db:toggle-out-of-date-errors')
             ->setDescription('Toggle whether the "Please upgrade your database" exception is thrown when your ' .
                 'database is out of date.');
         parent::configure();
@@ -56,8 +56,8 @@ class ToggleModule extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($this->isInProductionMode()) {
-            $output->writeln('<error>This command is not meant to be run in producton mode. Please consider keeping ' .
-                'your modules up to date.</error>');
+            $output->writeln('<error>' . __('This command is not meant to be run in production mode. Please consider keeping ' .
+                'your modules up to date.') . '</error>');
             $output->writeln('');
         }
 
@@ -65,13 +65,14 @@ class ToggleModule extends Command
         $newValue = !$currentValue;
         $this->configHelper->setIsModuleActive($newValue);
 
-        $prefix = ($newValue ? 'Enabled' : 'Disabled');
-        $output->writeln('<info>' . $prefix . ' database version exception messages</info>');
+        $output->writeln(
+            '<info>' . __(($newValue ? 'Enabled' : 'Disabled') . ' database version exception messages') . '</info>'
+        );
 
         if ($newValue) {
             $output->writeln('');
-            $output->writeln('<comment>Database version exception messages will now show in the system messages ' .
-                'banner in the backend.</comment>');
+            $output->writeln('<comment>' . __('Database version exception messages will now show in the system ' .
+                'messages banner in the backend.') . '</comment>');
         }
     }
 

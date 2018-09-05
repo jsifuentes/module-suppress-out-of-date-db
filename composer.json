@@ -1,11 +1,11 @@
 {
   "name": "sifuen/module-suppress-out-of-date-db",
-  "description": "Suppress/hide/ignore the \"Please upgrade your database\" message in Magento 2",
+  "description": "Hide the \"Please upgrade your database\" message in Magento 2",
   "type": "magento2-module",
   "version": "1.0.0",
   "license": "MIT",
   "require": {
-    "magento/framework": "~100.0.4"
+    "magento/framework": "100.0.*|100.1.*|101.0.*"
   },
   "autoload": {
     "files": [ "registration.php" ],

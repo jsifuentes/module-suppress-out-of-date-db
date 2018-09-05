@@ -2,6 +2,7 @@
 
 namespace Sifuen\SuppressOutOfDateDb\Model\System\Message;
 
+use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Module\DbVersionInfo;
 use Magento\Framework\Notification\MessageInterface;
 use Sifuen\SuppressOutOfDateDb\Helper\Config;
@@ -25,17 +26,25 @@ class DbOutOfDate implements MessageInterface
     private $config;
 
     /**
+     * @var UrlInterface
+     */
+    private $urlBuilder;
+
+    /**
      * DbOutOfDate constructor.
      * @param Config $config
      * @param DbVersionInfo $dbVersionInfo
+     * @param UrlInterface $urlBuilder
      */
     public function __construct(
         Config $config,
-        DbVersionInfo $dbVersionInfo
+        DbVersionInfo $dbVersionInfo,
+        UrlInterface $urlBuilder
     )
     {
         $this->dbVersionInfo = $dbVersionInfo;
         $this->config = $config;
+        $this->urlBuilder = $urlBuilder;
     }
 
     /**
@@ -65,9 +74,9 @@ class DbOutOfDate implements MessageInterface
         return __(
             'You have %1 module(s) out of date. ' .
             'Run bin/magento setup:upgrade from the Magento root directory. ' .
-            'Module List: %2',
+            'Visit the <a href="%2">out of date modules list</a> page',
             count($moduleNames),
-            implode(', ', $moduleNames)
+            $this->urlBuilder->getUrl('db_out_of_date/modules/show')
         );
     }
 
