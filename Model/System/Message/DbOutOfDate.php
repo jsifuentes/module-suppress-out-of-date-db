@@ -18,17 +18,22 @@ class DbOutOfDate implements MessageInterface
     /**
      * @var DbVersionInfo
      */
-    private $dbVersionInfo;
+    protected $dbVersionInfo;
 
     /**
      * @var Config
      */
-    private $config;
+    protected $config;
 
     /**
      * @var UrlInterface
      */
-    private $urlBuilder;
+    protected $urlBuilder;
+
+    /**
+     * @var array
+     */
+    protected $dbVersionErrors = [];
 
     /**
      * DbOutOfDate constructor.
@@ -60,7 +65,7 @@ class DbOutOfDate implements MessageInterface
      */
     public function isDisplayed()
     {
-        return $this->config->isModuleActive();
+        return $this->config->isModuleActive() && count($this->getDbVersionErrors()) > 0;
     }
 
     /**
@@ -68,7 +73,7 @@ class DbOutOfDate implements MessageInterface
      */
     public function getText()
     {
-        $dbErrors = $this->dbVersionInfo->getDbVersionErrors();
+        $dbErrors = $this->getDbVersionErrors();
         $moduleNames = $this->getModuleNames($dbErrors);
 
         return __(
@@ -92,10 +97,22 @@ class DbOutOfDate implements MessageInterface
      * @param array $dbErrors
      * @return array
      */
-    private function getModuleNames(array $dbErrors)
+    protected function getModuleNames(array $dbErrors)
     {
         return array_unique(array_map(function($error) {
             return $error['module'];
         }, $dbErrors));
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDbVersionErrors()
+    {
+        if ($this->dbVersionErrors === null) {
+            $this->dbVersionErrors = $this->dbVersionInfo->getDbVersionErrors();
+        }
+
+        return $this->dbVersionErrors;
     }
 }
